@@ -35,12 +35,12 @@ export default function About() {
             transition={{ duration: 0.8, delay: 0.2 }}
           >
             <p className="text-xl mb-6 text-gray-300">
-              Hi, I'm Shah Md. Ekteder. I'm a passionate developer with a keen eye for design and a love for creating
+              Hi, I&apos;m Shah Md. Ekteder. I&apos;m a passionate developer with a keen eye for design and a love for creating
               seamless user experiences. With expertise in React, Next.js, and modern web technologies, I bring ideas to
               life through clean, efficient code and intuitive interfaces.
             </p>
             <p className="text-xl text-gray-300">
-              When I'm not coding, you can find me exploring new technologies, contributing to open-source projects, or
+              When I&apos;m not coding, you can find me exploring new technologies, contributing to open-source projects, or
               enjoying the great outdoors.
             </p>
           </motion.div>
