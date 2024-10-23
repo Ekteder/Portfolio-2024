@@ -1,10 +1,14 @@
 import Home from './home'
 import Projects from './projects'
 import About from './about'
-import Skills from './skills'
 import Blog from './blog'
 import Contact from './contact'
 import AnimatedCursor from './cursor'
+import dynamic from 'next/dynamic'
+
+const DynamicSkills = dynamic(() => import('./skills'), {
+  loading: () => <p>Loading...</p>
+})
 
 export default function Page() {
   return (
@@ -20,7 +24,7 @@ export default function Page() {
         <About />
       </section>
       <section id="skills">
-        <Skills />
+        <DynamicSkills />
       </section>
       <section id="blog">
         <Blog />
