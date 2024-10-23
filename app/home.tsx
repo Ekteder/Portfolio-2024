@@ -22,22 +22,17 @@ const TypingAnimation = ({ text }: { text: string }) => {
 
   useEffect(() => {
     const intervalId = setInterval(() => {
-      setIndex((index) => {
-        if (!isDeleting && index < text.length) {
-          setDisplayText(text.slice(0, index + 1))
-          return index + 1
-        } else if (isDeleting && index > 0) {
-          setDisplayText(text.slice(0, index - 1))
-          return index - 1
-        } else if (index === text.length) {
-          setIsDeleting(true)
-          return index
-        } else if (index === 0) {
-          setIsDeleting(false)
-          return index
-        }
-        return index
-      })
+      if (!isDeleting && index < text.length) {
+        setDisplayText(text.slice(0, index + 1))
+        setIndex(index + 1)
+      } else if (isDeleting && index > 0) {
+        setDisplayText(text.slice(0, index - 1))
+        setIndex(index - 1)
+      } else if (index === text.length) {
+        setIsDeleting(true)
+      } else if (index === 0) {
+        setIsDeleting(false)
+      }
     }, 150)
 
     return () => clearInterval(intervalId)
