@@ -3,16 +3,36 @@
 import { motion } from 'framer-motion'
 import { useState, useRef } from 'react'
 import { useInView } from './useInView'
+import { databases, CONTACT_COLLECTION_ID, DATABASE_ID } from '../lib/appwrite'
+import { ID } from 'appwrite'
 
 export default function Contact() {
   const [formState, setFormState] = useState({ name: '', email: '', message: '' })
+  const [isSubmitting, setIsSubmitting] = useState(false)
+  const [submitStatus, setSubmitStatus] = useState<'success' | 'error' | null>(null)
   const ref = useRef(null)
   const isInView = useInView(ref)
 
-  const handleSubmit = (e: React.FormEvent) => {
+  const handleSubmit = async (e: React.FormEvent) => {
     e.preventDefault()
-    // Handle form submission here
-    console.log('Form submitted:', formState)
+    setIsSubmitting(true)
+    setSubmitStatus(null)
+
+    try {
+      await databases.createDocument(
+        DATABASE_ID,
+        CONTACT_COLLECTION_ID,
+        ID.unique(),
+        formState
+      )
+      setSubmitStatus('success')
+      setFormState({ name: '', email: '', message: '' })
+    } catch (error) {
+      console.error('Error submitting form:', error)
+      setSubmitStatus('error')
+    } finally {
+      setIsSubmitting(false)
+    }
   }
 
   const handleChange = (e: React.ChangeEvent<HTMLInputElement | HTMLTextAreaElement>) => {
@@ -82,9 +102,16 @@ export default function Contact() {
           <button
             type="submit"
             className="w-full bg-gradient-to-r from-purple-500 to-pink-500 text-white px-4 py-2 rounded-md font-semibold hover:from-purple-600 hover:to-pink-600 transition-colors"
+            disabled={isSubmitting}
           >
-            Send Message
+            {isSubmitting ? 'Sending...' : 'Send Message'}
           </button>
+          {submitStatus === 'success' && (
+            <p className="mt-4 text-green-400">Message sent successfully!</p>
+          )}
+          {submitStatus === 'error' && (
+            <p className="mt-4 text-red-400">Error sending message. Please try again.</p>
+          )}
         </motion.form>
       </div>
     </div>
