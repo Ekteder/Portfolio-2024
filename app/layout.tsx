@@ -1,8 +1,14 @@
 import './globals.css'
+import { Metadata } from 'next'
 
-export const metadata = {
-  title: 'Your Portfolio',
-  description: 'Your portfolio description',
+export const metadata: Metadata = {
+  title: 'Shah Md. Ekteder - Creative Developer',
+  description: 'Portfolio of Shah Md. Ekteder, a creative developer crafting digital experiences that inspire and engage.',
+  openGraph: {
+    title: 'Shah Md. Ekteder - Creative Developer',
+    description: 'Portfolio of Shah Md. Ekteder, a creative developer crafting digital experiences that inspire and engage.',
+    images: ['/og-image.jpg'],
+  },
 }
 
 export default function RootLayout({

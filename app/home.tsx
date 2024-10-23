@@ -36,7 +36,7 @@ const TypingAnimation = ({ text }: { text: string }) => {
     }, 150)
 
     return () => clearInterval(intervalId)
-  }, [text, isDeleting])
+  }, [text, index, isDeleting])
 
   return (
     <span className="inline-block min-w-[1ch]">

@@ -1,12 +1,27 @@
 'use client'
 
 import { motion } from 'framer-motion'
-import { useRef } from 'react'
+import { useRef, useState, useEffect } from 'react'
 import { useInView } from './useInView'
 
 export default function About() {
   const ref = useRef(null)
   const isInView = useInView(ref)
+  const [text, setText] = useState('')
+  const fullText = "Hi, I'm Shah Md. Ekteder. I'm a passionate developer..."
+
+  useEffect(() => {
+    let index = 0
+    const intervalId = setInterval(() => {
+      setText(fullText.slice(0, index))
+      index++
+      if (index > fullText.length) {
+        clearInterval(intervalId)
+      }
+    }, 50) // Adjust speed as needed
+
+    return () => clearInterval(intervalId)
+  }, [])
 
   return (
     <section ref={ref} id="about" className="py-24 bg-gray-800">
@@ -35,12 +50,10 @@ export default function About() {
             transition={{ duration: 0.8, delay: 0.2 }}
           >
             <p className="text-xl mb-6 text-gray-300">
-              Hi, I'm Shah Md. Ekteder. I'm a passionate developer with a keen eye for design and a love for creating
-              seamless user experiences. With expertise in React, Next.js, and modern web technologies, I bring ideas to
-              life through clean, efficient code and intuitive interfaces.
+              {text}
             </p>
             <p className="text-xl text-gray-300">
-              When I'm not coding, you can find me exploring new technologies, contributing to open-source projects, or
+              When I&apos;m not coding, you can find me exploring new technologies, contributing to open-source projects, or
               enjoying the great outdoors.
             </p>
           </motion.div>
