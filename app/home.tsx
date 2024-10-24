@@ -219,7 +219,7 @@ export default function Home() {
               {/* Image container */}
               <div className="absolute inset-[6px] rounded-full overflow-hidden z-10">
                 <Image
-                  src="/IMG_2841.jpg"
+                  src="/IMG_2841.webp"
                   alt="Shah Md. Ekteder"
                   layout="fill"
                   objectFit="cover"

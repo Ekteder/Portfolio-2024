@@ -1,43 +1,60 @@
-'use client'
+"use client";
 
-import { motion } from 'framer-motion'
-import { useState, useRef } from 'react'
-import { ExternalLink } from 'lucide-react'
-import { useInView } from './useInView'
+import Image from 'next/image'
+import { motion } from "framer-motion";
+import { useState } from "react";
+import { ExternalLink } from "lucide-react";
+import { useLazyLoad } from "./useLazyLoad";
 
 const projects = [
-  { id: 1, title: 'Project 1', description: 'A brief description of Project 1', image: '/placeholder.svg?height=300&width=400' },
-  { id: 2, title: 'Project 2', description: 'A brief description of Project 2', image: '/placeholder.svg?height=300&width=400' },
-  { id: 3, title: 'Project 3', description: 'A brief description of Project 3', image: '/placeholder.svg?height=300&width=400' },
-]
+  {
+    id: 1,
+    title: "Facebook.com Clone",
+    description:
+      "A complete replica of the Facebook login page, featuring an exact copy of the layout, design, and functionality from start to finish.",
+    image: "/Facebook-Cloning.webp",
+    link: "https://facebook-clone-shah.vercel.app/",
+  },
+  {
+    id: 2,
+    title: "Still In Progress",
+    description: "A brief description of Project 2",
+    image: "/sddefault.jpg",
+  },
+  {
+    id: 3,
+    title: "Still In Progress",
+    description: "A brief description of Project 3",
+    image: "/sddefault.jpg",
+  },
+];
 
 export default function Projects() {
-  const [hoveredProject, setHoveredProject] = useState<number | null>(null)
-  const ref = useRef(null)
-  const isInView = useInView(ref)
+  const [hoveredProject, setHoveredProject] = useState<number | null>(null);
+  const { isVisible, ref } = useLazyLoad();
 
   const containerVariants = {
     hidden: { opacity: 0 },
     visible: {
       opacity: 1,
       transition: {
-        staggerChildren: 0.2
-      }
-    }
-  }
+        staggerChildren: 0.2,
+      },
+    },
+  };
 
   const itemVariants = {
     hidden: { opacity: 0, y: 20 },
-    visible: { opacity: 1, y: 0 }
-  }
+    visible: { opacity: 1, y: 0 },
+  };
 
   return (
-    <section ref={ref} id="projects" className="py-24 bg-gray-900">
+    <section id="projects" className="py-24 bg-gray-900" ref={ref}>
       <div className="container mx-auto px-4">
         <motion.h2
           className="text-4xl md:text-5xl font-bold mb-12 text-center bg-clip-text text-transparent bg-gradient-to-r from-purple-400 to-pink-600"
           initial={{ opacity: 0, y: 50 }}
-          animate={isInView ? { opacity: 1, y: 0 } : { opacity: 0, y: 50 }}
+          animate={isVisible ? { opacity: 1, y: 0 } : { opacity: 0, y: 50 }}
           transition={{ duration: 0.8 }}
         >
           Projects
@@ -46,7 +63,7 @@ export default function Projects() {
           className="grid grid-cols-1 md:grid-cols-2 lg:grid-cols-3 gap-8"
           variants={containerVariants}
           initial="hidden"
-          animate={isInView ? "visible" : "hidden"}
+          animate={isVisible ? "visible" : "hidden"}
         >
           {projects.map((project) => (
             <motion.div
@@ -56,7 +73,13 @@ export default function Projects() {
               onHoverStart={() => setHoveredProject(project.id)}
               onHoverEnd={() => setHoveredProject(null)}
             >
-              <img src={project.image} alt={project.title} className="w-full h-64 object-cover" />
+              <Image 
+                src={project.image} 
+                alt={project.title} 
+                width={400} 
+                height={300} 
+                className="w-full h-64 object-cover"
+              />
               <motion.div
                 className="absolute inset-0 bg-gradient-to-t from-black to-transparent p-6 flex flex-col justify-end"
                 initial={{ opacity: 0 }}
@@ -66,7 +89,9 @@ export default function Projects() {
                 <h3 className="text-2xl font-semibold mb-2 text-white">{project.title}</h3>
                 <p className="text-gray-300 mb-4">{project.description}</p>
                 <a
-                  href="#"
+                  href={project.link || "#"}
+                  target="_blank"
+                  rel="noopener noreferrer"
                   className="inline-flex items-center text-purple-400 hover:text-purple-300 transition-colors"
                 >
                   View Project <ExternalLink size={16} className="ml-1" />
@@ -77,5 +102,5 @@ export default function Projects() {
         </motion.div>
       </div>
     </section>
-  )
+  );
 }

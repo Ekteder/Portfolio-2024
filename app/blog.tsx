@@ -2,8 +2,7 @@
 
 import { motion } from 'framer-motion'
 import Link from 'next/link'
-import { useRef } from 'react'
-import { useInView } from './useInView'
+import { useLazyLoad } from './useLazyLoad'
 
 const blogPosts = [
   { id: 1, title: 'Getting Started with React', excerpt: 'Learn the basics of React and start building your first component.' },
@@ -12,16 +11,15 @@ const blogPosts = [
 ]
 
 export default function Blog() {
-  const ref = useRef(null)
-  const isInView = useInView(ref)
+  const { isVisible, ref } = useLazyLoad()
 
   return (
-    <div ref={ref} className="min-h-screen bg-gradient-to-br from-gray-900 to-black text-white pt-24">
+    <div className="min-h-screen bg-gradient-to-br from-gray-900 to-black text-white pt-24" ref={ref}>
       <div className="container mx-auto px-4">
         <motion.h2
           className="text-4xl md:text-5xl font-bold mb-12 text-center bg-clip-text text-transparent bg-gradient-to-r from-purple-400 to-pink-600"
           initial={{ opacity: 0, y: 50 }}
-          animate={isInView ? { opacity: 1, y: 0 } : { opacity: 0, y: 50 }}
+          animate={isVisible ? { opacity: 1, y: 0 } : { opacity: 0, y: 50 }}
           transition={{ duration: 0.8 }}
         >
           Blog
@@ -32,7 +30,7 @@ export default function Blog() {
               key={post.id}
               className="bg-gray-800 rounded-lg overflow-hidden shadow-lg"
               initial={{ opacity: 0, y: 50 }}
-              animate={isInView ? { opacity: 1, y: 0 } : { opacity: 0, y: 50 }}
+              animate={isVisible ? { opacity: 1, y: 0 } : { opacity: 0, y: 50 }}
               transition={{ duration: 0.5, delay: index * 0.1 }}
             >
               <div className="p-6">

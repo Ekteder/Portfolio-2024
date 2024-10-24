@@ -1,8 +1,8 @@
 'use client'
 
 import { motion } from 'framer-motion'
-import { useState, useRef } from 'react'
-import { useInView } from './useInView'
+import { useState } from 'react'
+import { useLazyLoad } from './useLazyLoad'
 import { databases, CONTACT_COLLECTION_ID, DATABASE_ID } from '../lib/appwrite'
 import { ID } from 'appwrite'
 
@@ -10,8 +10,7 @@ export default function Contact() {
   const [formState, setFormState] = useState({ name: '', email: '', message: '' })
   const [isSubmitting, setIsSubmitting] = useState(false)
   const [submitStatus, setSubmitStatus] = useState<'success' | 'error' | null>(null)
-  const ref = useRef(null)
-  const isInView = useInView(ref)
+  const { isVisible, ref } = useLazyLoad()
 
   const handleSubmit = async (e: React.FormEvent) => {
     e.preventDefault()
@@ -40,12 +39,12 @@ export default function Contact() {
   }
 
   return (
-    <div ref={ref} className="min-h-screen bg-gradient-to-br from-gray-900 to-black text-white pt-24">
+    <div className="min-h-screen bg-gradient-to-br from-gray-900 to-black text-white pt-24" ref={ref}>
       <div className="container mx-auto px-4">
         <motion.h2
           className="text-4xl md:text-5xl font-bold mb-12 text-center bg-clip-text text-transparent bg-gradient-to-r from-purple-400 to-pink-600"
           initial={{ opacity: 0, y: 50 }}
-          animate={isInView ? { opacity: 1, y: 0 } : { opacity: 0, y: 50 }}
+          animate={isVisible ? { opacity: 1, y: 0 } : { opacity: 0, y: 50 }}
           transition={{ duration: 0.8 }}
         >
           Contact Me
@@ -54,7 +53,7 @@ export default function Contact() {
           className="max-w-lg mx-auto"
           onSubmit={handleSubmit}
           initial={{ opacity: 0, y: 50 }}
-          animate={isInView ? { opacity: 1, y: 0 } : { opacity: 0, y: 50 }}
+          animate={isVisible ? { opacity: 1, y: 0 } : { opacity: 0, y: 50 }}
           transition={{ duration: 0.8, delay: 0.2 }}
         >
           <div className="mb-4">
