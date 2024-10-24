@@ -1,12 +1,20 @@
-import Home from './home'
-import Projects from './projects'
-import About from './about'
-import Blog from './blog'
-import Contact from './contact'
-import AnimatedCursor from './cursor'
 import dynamic from 'next/dynamic'
+import Home from './home'
+import AnimatedCursor from './cursor'
 
+const DynamicProjects = dynamic(() => import('./projects'), {
+  loading: () => <p>Loading...</p>
+})
+const DynamicAbout = dynamic(() => import('./about'), {
+  loading: () => <p>Loading...</p>
+})
 const DynamicSkills = dynamic(() => import('./skills'), {
+  loading: () => <p>Loading...</p>
+})
+const DynamicBlog = dynamic(() => import('./blog'), {
+  loading: () => <p>Loading...</p>
+})
+const DynamicContact = dynamic(() => import('./contact'), {
   loading: () => <p>Loading...</p>
 })
 
@@ -18,19 +26,19 @@ export default function Page() {
         <Home />
       </section>
       <section id="projects">
-        <Projects />
+        <DynamicProjects />
       </section>
       <section id="about">
-        <About />
+        <DynamicAbout />
       </section>
       <section id="skills">
         <DynamicSkills />
       </section>
       <section id="blog">
-        <Blog />
+        <DynamicBlog />
       </section>
       <section id="contact">
-        <Contact />
+        <DynamicContact />
       </section>
     </main>
   )

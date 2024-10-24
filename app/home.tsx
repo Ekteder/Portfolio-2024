@@ -223,7 +223,9 @@ export default function Home() {
                   alt="Shah Md. Ekteder"
                   layout="fill"
                   objectFit="cover"
-                  className="rounded-full"
+                  className="rounded-full object-cover"
+                  loading="eager"
+                  priority
                 />
               </div>
             </div>
