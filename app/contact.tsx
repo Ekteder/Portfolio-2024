@@ -1,21 +1,31 @@
-'use client'
+"use client";
 
-import { motion } from 'framer-motion'
-import { useState } from 'react'
-import { useLazyLoad } from './useLazyLoad'
-import { databases, CONTACT_COLLECTION_ID, DATABASE_ID } from '../lib/appwrite'
-import { ID } from 'appwrite'
+import { motion } from "framer-motion";
+import { useState } from "react";
+import { useLazyLoad } from "./useLazyLoad";
+import { databases } from "../lib/appwrite";
+import { ID } from "appwrite";
+import { CONTACT_COLLECTION_ID, DATABASE_ID } from "./constants/info";
+
+// Define CONTACT_COLLECTION_ID here if it's not exported from appwrite
+// const CONTACT_COLLECTION_ID = "6719326f002d19fd2b31";
 
 export default function Contact() {
-  const [formState, setFormState] = useState({ name: '', email: '', message: '' })
-  const [isSubmitting, setIsSubmitting] = useState(false)
-  const [submitStatus, setSubmitStatus] = useState<'success' | 'error' | null>(null)
-  const { isVisible, ref } = useLazyLoad()
+  const [formState, setFormState] = useState({
+    name: "",
+    email: "",
+    message: "",
+  });
+  const [isSubmitting, setIsSubmitting] = useState(false);
+  const [submitStatus, setSubmitStatus] = useState<"success" | "error" | null>(
+    null
+  );
+  const { isVisible, ref } = useLazyLoad();
 
   const handleSubmit = async (e: React.FormEvent) => {
-    e.preventDefault()
-    setIsSubmitting(true)
-    setSubmitStatus(null)
+    e.preventDefault();
+    setIsSubmitting(true);
+    setSubmitStatus(null);
 
     try {
       await databases.createDocument(
@@ -23,23 +33,28 @@ export default function Contact() {
         CONTACT_COLLECTION_ID,
         ID.unique(),
         formState
-      )
-      setSubmitStatus('success')
-      setFormState({ name: '', email: '', message: '' })
+      );
+      setSubmitStatus("success");
+      setFormState({ name: "", email: "", message: "" });
     } catch (error) {
-      console.error('Error submitting form:', error)
-      setSubmitStatus('error')
+      console.error("Error submitting form:", error);
+      setSubmitStatus("error");
     } finally {
-      setIsSubmitting(false)
+      setIsSubmitting(false);
     }
-  }
+  };
 
-  const handleChange = (e: React.ChangeEvent<HTMLInputElement | HTMLTextAreaElement>) => {
-    setFormState({ ...formState, [e.target.name]: e.target.value })
-  }
+  const handleChange = (
+    e: React.ChangeEvent<HTMLInputElement | HTMLTextAreaElement>
+  ) => {
+    setFormState({ ...formState, [e.target.name]: e.target.value });
+  };
 
   return (
-    <div className="min-h-screen bg-gradient-to-br from-gray-900 to-black text-white pt-24" ref={ref}>
+    <div
+      className="min-h-screen bg-gradient-to-br from-gray-900 to-black text-white pt-24"
+      ref={ref}
+    >
       <div className="container mx-auto px-4">
         <motion.h2
           className="text-4xl md:text-5xl font-bold mb-12 text-center bg-clip-text text-transparent bg-gradient-to-r from-purple-400 to-pink-600"
@@ -103,16 +118,18 @@ export default function Contact() {
             className="w-full bg-gradient-to-r from-purple-500 to-pink-500 text-white px-4 py-2 rounded-md font-semibold hover:from-purple-600 hover:to-pink-600 transition-colors"
             disabled={isSubmitting}
           >
-            {isSubmitting ? 'Sending...' : 'Send Message'}
+            {isSubmitting ? "Sending..." : "Send Message"}
           </button>
-          {submitStatus === 'success' && (
+          {submitStatus === "success" && (
             <p className="mt-4 text-green-400">Message sent successfully!</p>
           )}
-          {submitStatus === 'error' && (
-            <p className="mt-4 text-red-400">Error sending message. Please try again.</p>
+          {submitStatus === "error" && (
+            <p className="mt-4 text-red-400">
+              Error sending message. Please try again.
+            </p>
           )}
         </motion.form>
       </div>
     </div>
-  )
+  );
 }
