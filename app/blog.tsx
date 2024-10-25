@@ -20,38 +20,35 @@ function BlogPost({ post }: { post: Post }) {
   const isInView = useInView(ref, { once: false, margin: "-100px 0px" })
 
   return (
-    <motion.div
-      ref={ref}
-      className="bg-gradient-to-br from-gray-800 to-gray-900 rounded-xl overflow-hidden shadow-lg group"
-      initial={{ opacity: 0, y: 50 }}
-      animate={isInView ? { opacity: 1, y: 0 } : { opacity: 0, y: 50 }}
-      transition={{ duration: 0.5 }}
-      whileHover={{ scale: 1.1, zIndex: 1 }}
-    >
-      <div className="relative h-64 overflow-hidden">
-        <Image 
-          src={post.imageUrl} 
-          alt={post.title} 
-          fill
-          className="object-cover transition-transform duration-300 group-hover:scale-110"
-        />
-        <div className="absolute inset-0 bg-black bg-opacity-50 transition-opacity duration-300 opacity-0 group-hover:opacity-100 flex items-center justify-center">
-          <Link href={`/blog/${post.$id}`} className="text-white text-lg font-semibold hover:underline">
-            Read More
-          </Link>
+    <Link href={`/blog/${post.$id}`}>
+      <motion.div
+        ref={ref}
+        className="bg-gradient-to-br from-gray-800 to-gray-900 rounded-xl overflow-hidden shadow-lg group cursor-pointer"
+        initial={{ opacity: 0, y: 50 }}
+        animate={isInView ? { opacity: 1, y: 0 } : { opacity: 0, y: 50 }}
+        transition={{ duration: 0.5 }}
+        whileHover={{ scale: 1.05, zIndex: 1 }}
+      >
+        <div className="relative h-64 overflow-hidden">
+          <Image 
+            src={post.imageUrl} 
+            alt={post.title} 
+            fill
+            className="object-cover transition-transform duration-300 group-hover:scale-110"
+          />
         </div>
-      </div>
-      <div className="p-6">
-        <h3 className="text-2xl font-bold mb-3 text-transparent bg-clip-text bg-gradient-to-r from-purple-400 to-pink-600">
-          {post.title}
-        </h3>
-        <p className="text-gray-300 mb-4 line-clamp-3">{post.content}</p>
-        <div className="flex justify-between items-center text-sm text-gray-400">
-          <span>{post.author}</span>
-          <span>{new Date(post.createdAt).toLocaleDateString()}</span>
+        <div className="p-6">
+          <h3 className="text-2xl font-bold mb-3 text-transparent bg-clip-text bg-gradient-to-r from-purple-400 to-pink-600">
+            {post.title}
+          </h3>
+          <p className="text-gray-300 mb-4 line-clamp-3">{post.content}</p>
+          <div className="flex justify-between items-center text-sm text-gray-400">
+            <span>{post.author}</span>
+            <span>{new Date(post.createdAt).toLocaleDateString()}</span>
+          </div>
         </div>
-      </div>
-    </motion.div>
+      </motion.div>
+    </Link>
   )
 }
 
