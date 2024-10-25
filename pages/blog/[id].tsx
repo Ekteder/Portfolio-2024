@@ -11,7 +11,7 @@ export const getServerSideProps: GetServerSideProps = async (context) => {
   const { id } = context.params as { id: string };
 
   try {
-    const res = await fetch(`http://localhost:3000/api/posts/${id}`);
+    const res = await fetch(`https://ekteder.vercel.app/api/posts/${id}`);
     if (!res.ok) {
       console.error(`API response not ok. Status: ${res.status}`);
       throw new Error(`Failed to fetch post. Status: ${res.status}`);
