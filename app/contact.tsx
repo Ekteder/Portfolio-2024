@@ -3,8 +3,11 @@
 import { motion } from 'framer-motion'
 import { useState } from 'react'
 import { useLazyLoad } from './useLazyLoad'
-import { databases, CONTACT_COLLECTION_ID, DATABASE_ID } from '../lib/appwrite'
+import { databases, DATABASE_ID } from '../lib/appwrite'
 import { ID } from 'appwrite'
+
+// Define CONTACT_COLLECTION_ID here if it's not exported from appwrite
+const CONTACT_COLLECTION_ID = '6719326f002d19fd2b31'
 
 export default function Contact() {
   const [formState, setFormState] = useState({ name: '', email: '', message: '' })
