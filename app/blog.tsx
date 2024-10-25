@@ -1,48 +1,111 @@
 'use client'
 
-import { motion } from 'framer-motion'
+// Component to display the list of blog posts
+import { useEffect, useState, useRef } from 'react'
 import Link from 'next/link'
-import { useLazyLoad } from './useLazyLoad'
+import { motion, useInView } from 'framer-motion'
+import Image from 'next/image'
 
-const blogPosts = [
-  { id: 1, title: 'Getting Started with React', excerpt: 'Learn the basics of React and start building your first component.' },
-  { id: 2, title: 'Advanced TypeScript Techniques', excerpt: 'Dive deep into TypeScript and learn advanced types and patterns.' },
-  { id: 3, title: 'Optimizing Next.js Applications', excerpt: 'Discover techniques to improve the performance of your Next.js apps.' },
-]
+interface Post {
+  $id: string;
+  title: string;
+  content: string;
+  imageUrl: string;
+  author: string;
+  createdAt: string;
+}
 
-export default function Blog() {
-  const { isVisible, ref } = useLazyLoad()
+function BlogPost({ post }: { post: Post }) {
+  const ref = useRef(null)
+  const isInView = useInView(ref, { once: false, margin: "-100px 0px" })
 
   return (
-    <div className="min-h-screen bg-gradient-to-br from-gray-900 to-black text-white pt-24" ref={ref}>
+    <motion.div
+      ref={ref}
+      className="bg-gradient-to-br from-gray-800 to-gray-900 rounded-xl overflow-hidden shadow-lg group"
+      initial={{ opacity: 0, y: 50 }}
+      animate={isInView ? { opacity: 1, y: 0 } : { opacity: 0, y: 50 }}
+      transition={{ duration: 0.5 }}
+      whileHover={{ scale: 1.1, zIndex: 1 }}
+    >
+      <div className="relative h-64 overflow-hidden">
+        <Image 
+          src={post.imageUrl} 
+          alt={post.title} 
+          fill
+          className="object-cover transition-transform duration-300 group-hover:scale-110"
+        />
+        <div className="absolute inset-0 bg-black bg-opacity-50 transition-opacity duration-300 opacity-0 group-hover:opacity-100 flex items-center justify-center">
+          <Link href={`/blog/${post.$id}`} className="text-white text-lg font-semibold hover:underline">
+            Read More
+          </Link>
+        </div>
+      </div>
+      <div className="p-6">
+        <h3 className="text-2xl font-bold mb-3 text-transparent bg-clip-text bg-gradient-to-r from-purple-400 to-pink-600">
+          {post.title}
+        </h3>
+        <p className="text-gray-300 mb-4 line-clamp-3">{post.content}</p>
+        <div className="flex justify-between items-center text-sm text-gray-400">
+          <span>{post.author}</span>
+          <span>{new Date(post.createdAt).toLocaleDateString()}</span>
+        </div>
+      </div>
+    </motion.div>
+  )
+}
+
+export default function Blog() {
+  const [posts, setPosts] = useState<Post[]>([])
+  const [error, setError] = useState<string | null>(null)
+  const headerRef = useRef(null)
+  const headerInView = useInView(headerRef, { once: false, margin: "-100px 0px" })
+
+  useEffect(() => {
+    const fetchPosts = async () => {
+      try {
+        console.log('Fetching posts...')
+        const response = await fetch('/api/posts')
+        if (!response.ok) {
+          throw new Error('Failed to fetch posts')
+        }
+        const data = await response.json()
+        console.log('Fetched posts:', data)
+        setPosts(data)
+      } catch (error) {
+        console.error('Error fetching posts:', error)
+        setError('Failed to fetch posts. Please try again later.')
+      }
+    }
+
+    fetchPosts()
+  }, [])
+
+  if (error) {
+    return <div className="text-red-500">{error}</div>
+  }
+
+  return (
+    <div className="min-h-screen bg-gradient-to-br from-gray-900 to-black text-white pt-24">
       <div className="container mx-auto px-4">
         <motion.h2
-          className="text-4xl md:text-5xl font-bold mb-12 text-center bg-clip-text text-transparent bg-gradient-to-r from-purple-400 to-pink-600"
+          ref={headerRef}
+          className="text-5xl md:text-6xl font-bold mb-16 text-center bg-clip-text text-transparent bg-gradient-to-r from-purple-400 via-pink-500 to-red-500"
           initial={{ opacity: 0, y: 50 }}
-          animate={isVisible ? { opacity: 1, y: 0 } : { opacity: 0, y: 50 }}
+          animate={headerInView ? { opacity: 1, y: 0 } : { opacity: 0, y: 50 }}
           transition={{ duration: 0.8 }}
         >
           Blog
         </motion.h2>
-        <div className="grid grid-cols-1 md:grid-cols-2 lg:grid-cols-3 gap-8">
-          {blogPosts.map((post, index) => (
-            <motion.div
-              key={post.id}
-              className="bg-gray-800 rounded-lg overflow-hidden shadow-lg"
-              initial={{ opacity: 0, y: 50 }}
-              animate={isVisible ? { opacity: 1, y: 0 } : { opacity: 0, y: 50 }}
-              transition={{ duration: 0.5, delay: index * 0.1 }}
-            >
-              <div className="p-6">
-                <h3 className="text-xl font-semibold mb-2">{post.title}</h3>
-                <p className="text-gray-400 mb-4">{post.excerpt}</p>
-                <Link href={`/blog/${post.id}`}>
-                  <span className="text-purple-400 hover:text-purple-300 transition-colors">Read more</span>
-                </Link>
-              </div>
-            </motion.div>
-          ))}
-        </div>
+        {posts.length === 0 ? (
+          <p className="text-center text-xl text-gray-400">No posts found.</p>
+        ) : (
+          <div className="grid grid-cols-1 md:grid-cols-2 lg:grid-cols-3 gap-10">
+            {posts.map((post) => (
+              <BlogPost key={post.$id} post={post} />
+            ))}
+          </div>
+        )}
       </div>
     </div>
   )
