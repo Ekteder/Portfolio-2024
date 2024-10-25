@@ -5,7 +5,7 @@ import { useState } from "react";
 import { useLazyLoad } from "./useLazyLoad";
 import { databases } from "../lib/appwrite";
 import { ID } from "appwrite";
-import { CONTACT_COLLECTION_ID, DATABASE_ID } from "./constants/info";
+import { CONTACT_COLLECTION_ID, DATABASE_ID } from "./info";
 
 // Define CONTACT_COLLECTION_ID here if it's not exported from appwrite
 // const CONTACT_COLLECTION_ID = "6719326f002d19fd2b31";
