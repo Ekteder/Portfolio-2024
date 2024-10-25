@@ -2,6 +2,8 @@ import dynamic from 'next/dynamic'
 import { Suspense } from 'react'
 import Home from './home'
 import AnimatedCursor from './cursor'
+import { Analytics } from '@vercel/analytics/react';
+import { SpeedInsights } from '@vercel/speed-insights/next';
 
 const DynamicProjects = dynamic(() => import('./projects'), {
   loading: () => <div>Loading Projects...</div>
@@ -51,6 +53,8 @@ export default function Page() {
           <DynamicContact />
         </Suspense>
       </section>
+      <Analytics />
+      <SpeedInsights />
     </main>
   )
 }
