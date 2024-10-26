@@ -4,6 +4,7 @@ import Home from './home'
 import AnimatedCursor from './cursor'
 import { Analytics } from '@vercel/analytics/react';
 import { SpeedInsights } from '@vercel/speed-insights/next';
+import Head from 'next/head';
 
 const DynamicProjects = dynamic(() => import('./projects'), {
   loading: () => <div>Loading Projects...</div>
@@ -24,6 +25,9 @@ const DynamicContact = dynamic(() => import('./contact'), {
 export default function Page() {
   return (
     <main className="min-h-screen bg-gray-900 text-white">
+      <Head>
+      <meta name="google-site-verification" content="gP5gGQwXgain37Oh_AZhWox-igJHBD55-3MvNjlAS9s" />
+      </Head>
       <AnimatedCursor />
       <section id="home">
         <Home />
