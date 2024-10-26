@@ -150,7 +150,16 @@ export default function Post({ post }: PostProps) {
             animate={{ opacity: 1, y: 0 }}
             transition={{ duration: 0.8, delay: 0.4 }}
           >
-            <p style={{ color: "#d1d5db", lineHeight: 1.625, fontSize: "1.125rem" }}>{post.content}</p>
+            <pre style={{ 
+              color: "#d1d5db", 
+              lineHeight: 1.625, 
+              fontSize: "1.125rem",
+              whiteSpace: "pre-wrap",
+              wordWrap: "break-word",
+              fontFamily: "inherit"
+            }}>
+              {post.content}
+            </pre>
           </motion.div>
           
           <motion.div 
