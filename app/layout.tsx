@@ -8,8 +8,8 @@ const inter = Inter({
 })
 
 export const metadata: Metadata = {
-  title: 'Your Portfolio',
-  description: 'Your portfolio description',
+  title: 'Shah Md Ekteder',
+  description: 'Portfolio of Shah Md Ekteder, a web developer and designer specializing in modern web technologies.',
 }
 
 export default function RootLayout({
@@ -20,14 +20,9 @@ export default function RootLayout({
   return (
     <html lang="en" className={inter.className}>
       <head>
-        <link
-          rel="preload"
-          href="/IMG_2841.jpg"
-          as="image"
-        />
-        {/* Add other critical assets here */}
+      <meta name="google-site-verification" content="gP5gGQwXgain37Oh_AZhWox-igJHBD55-3MvNjlAS9s" />
       </head>
-      <body className="bg-gray-900 text-white">{children}</body>
+      <body className="bg-gray-900 text-white" suppressHydrationWarning={true}>{children}</body>
     </html>
   )
 }
