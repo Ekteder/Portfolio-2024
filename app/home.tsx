@@ -1,42 +1,49 @@
-'use client'
+"use client";
 
-import { motion, AnimatePresence } from 'framer-motion'
-import { useState, useEffect } from 'react'
-import { Menu, X, ChevronDown, Facebook, Linkedin, Twitter } from 'lucide-react'
-import Link from 'next/link'
-import Image from 'next/image'
+import { motion, AnimatePresence } from "framer-motion";
+import { useState, useEffect } from "react";
+import {
+  Menu,
+  X,
+  ChevronDown,
+  Facebook,
+  Linkedin,
+  Twitter,
+} from "lucide-react";
+import Link from "next/link";
+import Image from "next/image";
 
 const menuItems = [
-  { name: 'Home', path: '#home' },
-  { name: 'Projects', path: '#projects' },
-  { name: 'About', path: '#about' },
-  { name: 'Skills', path: '#skills' },
-  { name: 'Blog', path: '#blog' },
-  { name: 'Contact', path: '#contact' },
-]
+  { name: "Home", path: "#home" },
+  { name: "Projects", path: "#projects" },
+  { name: "About", path: "#about" },
+  { name: "Skills", path: "#skills" },
+  { name: "Blog", path: "#blog" },
+  { name: "Contact", path: "#contact" },
+];
 
 const TypingAnimation = ({ text }: { text: string }) => {
-  const [displayText, setDisplayText] = useState('')
-  const [index, setIndex] = useState(0)
-  const [isDeleting, setIsDeleting] = useState(false)
+  const [displayText, setDisplayText] = useState("");
+  const [index, setIndex] = useState(0);
+  const [isDeleting, setIsDeleting] = useState(false);
 
   useEffect(() => {
     const intervalId = setInterval(() => {
       if (!isDeleting && index < text.length) {
-        setDisplayText(text.slice(0, index + 1))
-        setIndex(index + 1)
+        setDisplayText(text.slice(0, index + 1));
+        setIndex(index + 1);
       } else if (isDeleting && index > 0) {
-        setDisplayText(text.slice(0, index - 1))
-        setIndex(index - 1)
+        setDisplayText(text.slice(0, index - 1));
+        setIndex(index - 1);
       } else if (index === text.length) {
-        setIsDeleting(true)
+        setIsDeleting(true);
       } else if (index === 0) {
-        setIsDeleting(false)
+        setIsDeleting(false);
       }
-    }, 150)
+    }, 150);
 
-    return () => clearInterval(intervalId)
-  }, [text, index, isDeleting])
+    return () => clearInterval(intervalId);
+  }, [text, index, isDeleting]);
 
   return (
     <span className="inline-block min-w-[1ch]">
@@ -48,15 +55,15 @@ const TypingAnimation = ({ text }: { text: string }) => {
         |
       </motion.span>
     </span>
-  )
-}
+  );
+};
 
 export default function Home() {
-  const [isMenuOpen, setIsMenuOpen] = useState(false)
+  const [isMenuOpen, setIsMenuOpen] = useState(false);
 
   const handleMenuClick = () => {
-    setIsMenuOpen(false)
-  }
+    setIsMenuOpen(false);
+  };
 
   return (
     <div className="min-h-screen bg-[#0c1022] text-white">
@@ -105,7 +112,7 @@ export default function Home() {
             exit={{ opacity: 0 }}
             transition={{ duration: 0.3 }}
           >
-            <motion.div 
+            <motion.div
               className="flex flex-col items-center justify-center h-full"
               initial={{ opacity: 0, y: 20 }}
               animate={{ opacity: 1, y: 0 }}
@@ -133,7 +140,10 @@ export default function Home() {
       </AnimatePresence>
 
       <main className="pt-24 px-4 md:px-0">
-        <section id="home" className="container mx-auto flex flex-col md:flex-row items-center justify-between min-h-screen">
+        <section
+          id="home"
+          className="container mx-auto flex flex-col md:flex-row items-center justify-between min-h-screen"
+        >
           <div className="w-full md:w-1/2 mb-12 md:mb-0">
             <motion.h2
               className="text-4xl sm:text-5xl md:text-7xl font-bold mb-8 bg-clip-text text-transparent bg-gradient-to-r from-purple-400 via-pink-500 to-red-500 h-[1.2em] flex items-center"
@@ -157,14 +167,18 @@ export default function Home() {
               animate={{ opacity: 1, y: 0 }}
               transition={{ duration: 0.8, delay: 0.6 }}
             >
-              Crafting digital experiences that inspire and engage. Bringing ideas to life through code and creativity.
+              Crafting digital experiences that inspire and engage. Bringing
+              ideas to life through code and creativity.
             </motion.p>
             <motion.div
               initial={{ opacity: 0, y: 50 }}
               animate={{ opacity: 1, y: 0 }}
               transition={{ duration: 0.8, delay: 0.8 }}
             >
-              <Link href="#contact" className="inline-block bg-gradient-to-r from-purple-500 to-pink-500 text-white px-8 py-3 rounded-full font-semibold hover:from-purple-600 hover:to-pink-600 transition-colors cursor-pointer">
+              <Link
+                href="#contact"
+                className="inline-block bg-gradient-to-r from-purple-500 to-pink-500 text-white px-8 py-3 rounded-full font-semibold hover:from-purple-600 hover:to-pink-600 transition-colors cursor-pointer"
+              >
                 Hire Me
               </Link>
             </motion.div>
@@ -175,26 +189,38 @@ export default function Home() {
               transition={{ duration: 0.8, delay: 1 }}
             >
               {[
-                { Icon: Facebook, href: "https://www.facebook.com/ekteder.sanglap", color: "#4267B2" },
-                { Icon: Linkedin, href: "https://www.linkedin.com/in/shah-md-ekteder-88b05928b/", color: "#0077B5" },
-                { Icon: Twitter, href: "https://x.com/ekteder", color: "#1DA1F2" }
+                {
+                  Icon: Facebook,
+                  href: "https://www.facebook.com/ekteder.sanglap",
+                  color: "#4267B2",
+                },
+                {
+                  Icon: Linkedin,
+                  href: "https://www.linkedin.com/in/shah-md-ekteder-88b05928b/",
+                  color: "#0077B5",
+                },
+                {
+                  Icon: Twitter,
+                  href: "https://x.com/ekteder",
+                  color: "#1DA1F2",
+                },
               ].map(({ Icon, href, color }, index) => (
-                <motion.a 
+                <motion.a
                   key={index}
                   href={href}
                   target="_blank"
                   rel="noopener noreferrer"
                   className="w-12 h-12 rounded-full bg-gradient-to-br from-purple-500 to-pink-500 p-[2px] cursor-pointer"
-                  whileHover={{ 
-                    scale: 1.2, 
+                  whileHover={{
+                    scale: 1.2,
                     rotate: 10,
-                    boxShadow: `0 0 20px ${color}`
+                    boxShadow: `0 0 20px ${color}`,
                   }}
                   transition={{ type: "spring", stiffness: 300, damping: 10 }}
                 >
-                  <motion.div 
+                  <motion.div
                     className="w-full h-full rounded-full bg-[#0c1022] flex items-center justify-center"
-                    whileHover={{ 
+                    whileHover={{
                       backgroundColor: color,
                     }}
                   >
@@ -204,7 +230,7 @@ export default function Home() {
               ))}
             </motion.div>
           </div>
-          
+
           <motion.div
             className="w-full md:w-1/2"
             initial={{ opacity: 0, scale: 0.8 }}
@@ -238,9 +264,12 @@ export default function Home() {
           animate={{ opacity: 1, y: 0 }}
           transition={{ duration: 0.5, delay: 1 }}
         >
-          <ChevronDown className="animate-bounce text-white opacity-50" size={32} />
+          <ChevronDown
+            className="animate-bounce text-white opacity-50"
+            size={32}
+          />
         </motion.div>
       </main>
     </div>
-  )
+  );
 }
